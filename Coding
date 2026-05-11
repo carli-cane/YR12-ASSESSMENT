@@ -1,0 +1,38 @@
+import easygui as eg 
+
+characters = {}
+
+def leave():
+    quit = eg.buttonbox("Are you sure you would like to quit?",
+                        choices=["Yes","No"], title="Confirmation")
+    if quit == "Yes":
+        eg.msgbox("Thank you for checking out the programme",
+                title = "Leaving programme")
+        quit
+
+    if quit =="No":
+        eg.msgbox("We are taking you back to the main menu",
+                  title="Returning")
+        main_menu()
+
+def main_menu():
+    eg.buttonbox("Which action would you like to perform?",
+                 choices=["Add","Delete","Edit","View"],title="Main Menu")
+    
+
+welcome = eg.buttonbox("Welcome to the OC Maker!" + "\n"
+          + "Thoughout this programme you will be able to: " + "\n\n"
+          + "- Add Characters" + "\n" 
+          + "- Edit Characters" + "\n" 
+          + "- Delete Characters" + "\n"
+          + "- Display Character Information" + "\n\n"
+          + "Would you like to proceed?",
+          choices=["Yes","No"],title="Welcome")
+
+if welcome == "Yes":
+    # first run through must add character before allowing any other option
+    main_menu()
+    
+
+if welcome == "No":
+    leave()
