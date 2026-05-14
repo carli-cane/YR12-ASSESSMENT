@@ -16,9 +16,54 @@ def leave():
         main_menu()
 
 def main_menu():
-    eg.buttonbox("Which action would you like to perform?",
-                 choices=["Add","Delete","Edit","View"],title="Main Menu")
+    option = eg.buttonbox("Which action would you like to perform?",
+                 choices=["Add","Delete","Edit","View","Quit"],
+                 title="Main Menu")
+    if option == "Add":
+        add()
+
+    if option == "Quit":
+        leave()
     
+def add():
+    ID = eg.integerbox("Please choose a number for your characters ID")
+    characters[ID] = {}
+
+    name = eg.enterbox("What is this characters name?",title="Character Name")
+    characters[ID]["name"] = name
+
+    age = eg.integerbox("What is " + name + "'s age?",
+                        title="Character Age")
+    characters[ID]["age"] = age
+
+    pronouns = eg.buttonbox("What are " + name + "'s pronouns?",
+                            title="Character Pronouns",
+                          choices=["She/Her","He/Him","They/Them","Other"])
+    if pronouns == "Other":
+        pronouns = eg.enterbox("Please enter " + name + "'s pronouns"
+                               + "\n" + "Input it under the format Xx/Yy",
+                               title="Character Pronouns")
+        characters[ID]["pronouns"] = pronouns
+    else:
+        characters[ID]["pronouns"] = pronouns
+
+    extra = eg.buttonbox("Do you want to add any extra information?",
+                          choices=["Yes","No"],
+                          title="Extra Details?")
+    if extra == "No":
+        eg.msgbox(characters)
+
+    if extra == "Yes":
+        extra_things = eg.choicebox("What category would you like to add to?",
+                                    choices=["Eyes","Hair","Skin","Body"])
+        if extra_things == "Eyes":
+            eye_extra = eg.choicebox("What detail would you like to add?",
+                                     choices=
+                                     ["Colour","Heterochroma","Shape","Lashes"])
+            if eye_extra == "Colour":
+                colour = eg.enterbox("What colour eyes does " + name + " have?")
+                characters[ID]["eye colour"] = colour
+
 
 welcome = eg.buttonbox("Welcome to the OC Maker!" + "\n"
           + "Thoughout this programme you will be able to: " + "\n\n"
