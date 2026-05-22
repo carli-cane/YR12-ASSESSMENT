@@ -8,14 +8,14 @@ def leave():
     # while also confirming this is something they chose 
     # instead of an accidental click
 
-    quit = eg.buttonbox("Are you sure you would like to quit?",
+    exit = eg.buttonbox("Are you sure you would like to quit?",
                         choices=["Yes","No"], title="Confirmation")
-    if quit == "Yes":
+    if exit == "Yes":
         eg.msgbox("Thank you for checking out the programme",
                 title = "Leaving programme")
         quit
 
-    if quit =="No":
+    if exit =="No":
         eg.msgbox("We are taking you back to the main menu",
                   title="Returning")
         main_menu()
@@ -31,6 +31,12 @@ def main_menu():
     if option == "Add":
         add()
 
+    if option == "Delete":
+        delete()
+
+    if option == "View":
+        view()
+
     if option == "Quit":
         leave()
 
@@ -41,12 +47,14 @@ def add():
                        title="Character ID")
     characters[ID] = {}
 
-    name = eg.enterbox("What is this characters name?",title="Character Name")
-    characters[ID]["name"] = name
+    name = eg.enterbox("What is this characters name?",
+                       title="Character Name")
+    characters[ID]["Name"] = name
 
     age = eg.integerbox("What is " + name + "'s age?",
-                        title="Character Age")
-    characters[ID]["age"] = age
+                        title="Character Age",
+                        upperbound=10000)
+    characters[ID]["Age"] = age
 
     pronouns = eg.buttonbox("What are " + name + "'s pronouns?",
                             title="Character Pronouns",
@@ -56,38 +64,42 @@ def add():
                                + "\n" + "Input it under the format Xx/Yy",
                                title="Character Pronouns")
         while "/" not in pronouns:
-            eg.msgbox("ERROR!",title="Input Error")
+            eg.msgbox("ERROR!",
+                    title="Input Error")
             pronouns = eg.enterbox("Please make sure to enter " 
                                    + name 
                                    + "'s pronouns" + " under the format Xx/Yy",
                         title="Character Pronouns")
-        characters[ID]["pronouns"] = pronouns
+        characters[ID]["Pronouns"] = pronouns
     else:
-        characters[ID]["pronouns"] = pronouns
+        characters[ID]["Pronouns"] = pronouns
 
     extra = eg.buttonbox("Do you want to add any extra information?",
                         choices=["Yes","No"],
                         title="Extra Details?")
     if extra == "No":
-        eg.msgbox(characters)
+        eg.msgbox(characters,
+                  title="Character Information")
+        main_menu()
 
     if extra == "Yes":
         def extra_details():
             extra_things = eg.choicebox("What category would you like " 
                                         + "to add to?",
                                         choices=["Eyes","Hair","Skin","Body",
-                                            "Main Menu","Complete"],
+                                                "Complete","Main Menu"],
                                             title="Extra Details Choice")
     
             if extra_things == "Eyes":
                 eye_extra = eg.choicebox("What detail would you like to add?",
                                         choices=["Colour","Heterochromia",
-                                                "Shape","Lashes"],
+                                                "Shape","Lashes","Cancel"],
                                         title="Eye Details")
                 
                 if eye_extra == "Colour":
                     colour = eg.enterbox("What colour eyes does " + name 
-                                        + " have?", title="Eye Colour")
+                                        + " have?",
+                                        title="Eye Colour")
                     characters[ID]["Eye Colour"] = colour
                     extra_details()
 
@@ -112,19 +124,32 @@ def add():
                                                     "Monolid",
                                                     "Downturned",
                                                     "Close-Set",
-                                                    "Wide-Set"],
+                                                    "Wide-Set",
+                                                    "Cancel"],
                                                     title="Eye Shape")
-                    characters[ID]["Eye Shape"] = eye_shape
-                    extra_details()
+                    if eye_shape == "Cancel":
+                        extra_details()
+
+                    else:
+                        characters[ID]["Eye Shape"] = eye_shape
+                        extra_details()
 
                 if eye_extra == "Lashes":
                     lashes = eg.choicebox("What type of lashes do " + name + 
                                             " have?",choices=["None",
                                                             "Short",
                                                             "Medium",
-                                                            "Long"],
+                                                            "Long",
+                                                            "Cancel"],
                                                             title="Lashes")
-                    characters[ID]["Eyelashes"] = lashes
+                    if lashes == "Cancel":
+                        extra_details()
+
+                    else:   
+                        characters[ID]["Eyelashes"] = lashes
+                        extra_details()
+
+                if eye_extra == "Cancel":
                     extra_details()
 
             if extra_things == "Hair":
@@ -149,20 +174,21 @@ def add():
                                         title="Dye Colour")
                     characters[ID]["Dye Colour"] = dye
                     extra_details()
-                    # need to make sure it can cycle through instead of such repititve code
+
                 if hair_extra == "Length":
                     length = eg.choicebox("What length hair does " + name + 
                                         " have?",
                                         choices=["No Hair",
                                                 "Buzzed",
                                                 "Short",
-                                                "Shouler Length",
+                                                "Shoulder Length",
                                                 "Over Shoulder",
                                                 "Past Ribs",
                                                 "Past Tailbone"],
                                                 title="Hair Length")
                     characters[ID]["Hair Length"] = length
                     extra_details()
+
                 if hair_extra == "Type":
                     type = eg.choicebox("What type of hair does " + name 
                                         + " have?",
@@ -174,22 +200,28 @@ def add():
                                                 title="Hair Type")
                     characters[ID]["Hair Type"] = type
                     extra_details()
+
                 if hair_extra == "Style":
                     style = eg.enterbox("What hairstyle does " + name 
                                         + " have?",
                                         title="Hair Style")
+                    
                     style_conf = eg.buttonbox("Is " + style + " correct?",
                                         choices=["Yes","No"],
                                         title="Style Confirmation")
+                    
                     while style_conf == "No":
                         style = eg.enterbox("What hairstyle does " + name 
                                             + " have?",
                                             title="Hair Style")
+                        
                         style_conf = eg.buttonbox("Is " + style + " correct?",
                                                 choices=["Yes","No"],
                                                 title="Style Confirmation")
+                        
                         characters[ID]["Hair Style"] = style
                         extra_details()
+
                     if style_conf == "Yes":
                         characters[ID]["Hair Style"] = style
                         extra_details()
@@ -257,12 +289,15 @@ def add():
             if extra_things == "Body":
                 body_extra = eg.choicebox("What detail would you like to add?",
                                         choices=["Height","Shape",
-                                                "Extra Parts"],
+                                                "Extra Parts",
+                                                "Different Species",
+                                                "Cancel"],
                                                 title="Body Details")
                 if body_extra == "Height":
                     height = eg.integerbox("Please enter " + name + "'s height"
                                         + "in cm (just the numbers)",
-                                        title="Height")
+                                        title="Height",
+                                        upperbound=10000)
                     characters[ID]["Height"] = str(height) + "cm"
                     extra_details()
                 
@@ -276,10 +311,14 @@ def add():
                                                 "Hourglass",
                                                 "Diamond",
                                                 "Apple",
-                                                "Trapezoid"],
+                                                "Trapezoid",
+                                                "Cancel"],
                                                 title="Body Shape")
-                    characters[ID]["Body Shape"] = shape
-                    extra_details()
+                    if shape == "Cancel":
+                        extra_details()
+                    else:
+                        characters[ID]["Body Shape"] = shape
+                        extra_details()
 
                 if body_extra == "Extra Parts":
                     extra_parts = eg.buttonbox("Does " + name 
@@ -304,28 +343,104 @@ def add():
                                                      "Legs",
                                                      "Calves",
                                                      "Feet",
-                                                     "Toes"])
+                                                     "Toes",
+                                                     "Cancel"],
+                                                     title="Extra Parts")
+                        if part == "Cancel":
+                            extra_details()
 
-                        limb = eg.integerbox("How many " + str(part) + " does " 
+                        else:
+                            limb = eg.integerbox("How many " + str(part) 
+                                                + " does " 
                                                 + name 
                                                 + " have?",
                                         title= str(part) + " Amount")
-                        characters[ID]["Amount of " + str(part)] = limb
-                        extra_details()
-     
+                            characters[ID]["Amount of " + str(part)] = limb
+                            extra_details()
 
                     if extra_parts == "No":
                         extra_details()
+
+                if body_extra == "Different Species":
+                    species_detail = eg.choicebox("What species detail does "
+                                                + name + " have?",
+                                                choices=["Fangs",
+                                                        "Horns",
+                                                        "Antenna",
+                                                        "Pointed Ears",
+                                                        "Tail",
+                                                        "Metallic Parts",
+                                                        "Gills",
+                                                        "Mermaid tail",
+                                                        "Wings",
+                                                        "Hooves",
+                                                        "Beaks",
+                                                        "Cancel"],
+                                                title="Species Details")
+                    
+                    if species_detail == "Cancel":
+                        extra_details
+                    else:
+                        characters[ID]["Species Detail"] = species_detail
+                        extra_details()
+
+                if body_extra == "Cancel":
+                    extra_details()
+
+            if extra_things == "Complete":
+                eg.msgbox(characters,
+                          title="Characters Information")
+                main_menu()
 
             if extra_things == "Main Menu":
                 eg.msgbox("We are taking you back to the main menu",
                            title="Returning")
                 
-            if extra_things == "Complete":
-                eg.msgbox(characters)
-                main_menu()
+
             main_menu()
         extra_details()
+
+def view():
+    id = eg.integerbox("What is your characters ID?",
+                       title="Search ID")
+    while id not in characters:
+        eg.msgbox("That ID does not exist",
+                  title="ID Error")
+        id = eg.integerbox("What is your characters ID?",
+                           title="Search ID")
+    if id in characters:
+        eg.msgbox(characters[id])
+        main_menu()
+
+def delete():
+    delete = eg.integerbox("What is the id of the character " 
+                           + " you want to delete?",
+                           title="Delete")
+    delete_confirm = eg.buttonbox("Is " + characters[delete]["Name"] 
+                                  + " correct?",
+                                  choices=["Yes","No"],
+                                  title="Delete Confirmation")
+    while delete_confirm == "No":
+            delete = eg.integerbox("What is the ID of the character " 
+                           + "you want to delete?",
+                           title="Delete")
+            while delete not in characters[delete]:
+                eg.msgbox("That ID was not correct")
+                delete = eg.integerbox("What is the ID of the character " 
+                           + "you want to delete?",
+                           title="Delete")
+
+            delete_confirm = eg.buttonbox("Is " + characters[delete]["Name"] 
+                                  + " correct?",
+                                  choices=["Yes","No"],
+                                  title="Delete Confirmation")
+    if delete_confirm == "Yes":
+        eg.msgbox(characters[delete]["Name"] + " has been deleted",
+                  title="Deletion Complete")
+        characters.pop(delete)
+        main_menu()
+
+
 
 welcome = eg.buttonbox("Welcome to the OC Maker!" + "\n"
         + "Thoughout this programme you will be able to: " + "\n\n"
@@ -337,8 +452,11 @@ welcome = eg.buttonbox("Welcome to the OC Maker!" + "\n"
         choices=["Yes","No"],title="Welcome")
 
 if welcome == "Yes":
-    # first run through must add character before allowing any other option
-    main_menu()
+    eg.msgbox("Since this is your first time entering the programme:" + "\n\n" 
+            + "You will be directed to: Adding a Character!",
+            title="Starter Character")
+    add()
+
     
 
 if welcome == "No":
