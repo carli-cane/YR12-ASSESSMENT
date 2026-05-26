@@ -1,10 +1,11 @@
 import easygui as eg 
 
 characters = {}
+character_num = 0
 
 
 def leave():
-    #This function allows users to quit the programme
+    # This function allows users to quit the programme
     # while also confirming this is something they chose 
     # instead of an accidental click
 
@@ -29,10 +30,14 @@ def main_menu():
                 choices=["Add","Delete","Edit","View","Quit"],
                 title="Main Menu")
     if option == "Add":
+        character_num += 1
         add()
 
     if option == "Delete":
         delete()
+
+    if option == "Edit":
+        edit()
 
     if option == "View":
         view()
@@ -322,7 +327,8 @@ def add():
 
                 if body_extra == "Extra Parts":
                     extra_parts = eg.buttonbox("Does " + name 
-                                            + " have any extra body parts?",
+                                            + " have any extra or less body" 
+                                            + " parts than normal?",
                                             choices=["Yes","No"],
                                             title="Extra Body Parts")
                     if extra_parts == "Yes":
@@ -379,7 +385,7 @@ def add():
                                                 title="Species Details")
                     
                     if species_detail == "Cancel":
-                        extra_details
+                        extra_details()
                     else:
                         characters[ID]["Species Detail"] = species_detail
                         extra_details()
@@ -400,6 +406,24 @@ def add():
             main_menu()
         extra_details()
 
+def edit():
+    id = eg.integerbox("What is the characters ID you would like to edit?",
+                       title="Search ID")
+    while id not in characters:
+        eg.msgbox("That ID does not exist",
+                  title="ID Error")
+        id = eg.integerbox("What is your characters ID?",
+                           title="Search ID")
+    if id in characters:
+        seperate = list(characters[id])
+        details = str(seperate).split(",")
+
+        edit = eg.choicebox("What detail would you like to edit?",
+                     choices=[details,"Add"])
+        if edit == "Add":
+            eg.msgbox("placeholder")
+
+
 def view():
     id = eg.integerbox("What is your characters ID?",
                        title="Search ID")
@@ -410,6 +434,11 @@ def view():
                            title="Search ID")
     if id in characters:
         eg.msgbox(characters[id])
+
+        seperate = list(characters[id])
+        details = str(seperate).split(",")
+
+        eg.msgbox(details)
         main_menu()
 
 def delete():
@@ -437,9 +466,16 @@ def delete():
     if delete_confirm == "Yes":
         eg.msgbox(characters[delete]["Name"] + " has been deleted",
                   title="Deletion Complete")
+        character_num - 1
         characters.pop(delete)
-        main_menu()
 
+        while character_num == 0:
+            eg.msgbox("Since you have no more characters left:" + "\n\n" 
+            + "You will be directed back to: Adding a Character",
+            title="Character Adder")
+            add()
+
+        main_menu()
 
 
 welcome = eg.buttonbox("Welcome to the OC Maker!" + "\n"
@@ -456,8 +492,6 @@ if welcome == "Yes":
             + "You will be directed to: Adding a Character!",
             title="Starter Character")
     add()
-
-    
 
 if welcome == "No":
     leave()
