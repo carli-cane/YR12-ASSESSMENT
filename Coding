@@ -170,14 +170,52 @@ def add():
                     extra_details()
 
                 if hair_extra == "Dyed":
-                    colour = eg.enterbox("What base colour hair does " + name 
+                    colour = eg.choicebox("What base colour hair does " + name 
+                                        + " have?",
+                                        choices=["Ginger",
+                                                "Blond"
+                                                "Blonde",
+                                                "Dirty Blond",
+                                                "Dirty Blonde",
+                                                "Brunette",
+                                                "Brown",
+                                                "Dark Brown",
+                                                "Jet-Black",
+                                                "Other"],
+                                        title="Base Hair Colour")
+                    
+                    if colour == "Other":
+                        colour = eg.enterbox("What base colour hair does " + name 
                                         + " have?",
                                         title="Base Hair Colour")
-                    characters[ID]["Hair Colour"] = colour
-                    dye = eg.enterbox("What dye colour does " + name 
+                        characters[ID]["Hair Colour"] = colour
+
+                    else:
+                        characters[ID]["Hair Colour"] = colour
+
+                    dye = eg.choicebox("What dye colour does " + name 
+                                        + " have?",
+                                        choices=["Red",
+                                                "Orange",
+                                                "Yellow",
+                                                "Green",
+                                                "Blue",
+                                                "Purple",
+                                                "Pink",
+                                                "White",
+                                                "Grey",
+                                                "Brown",
+                                                "Black",
+                                                "Other"],
+                                        title="Dye Colour")
+                    if dye == "Other":
+                        dye = eg.enterbox("What dye colour does " + name 
                                         + " have?",
                                         title="Dye Colour")
-                    characters[ID]["Dye Colour"] = dye
+                        characters[ID]["Dye Colour"] = dye
+
+                    else:
+                        characters[ID]["Dye Colour"] = dye  
                     extra_details()
 
                 if hair_extra == "Length":
@@ -237,7 +275,7 @@ def add():
                                                 "Conditions"],
                                                 title="Skin Details")
                 if skin_extra == "Colour":
-                    colour = eg.enterbox("What colour is " + name + "'s skin?",
+                    colour = eg.choicebox("What colour is " + name + "'s skin?",
                                         title="Skin Colour")
                     characters[ID]["Skin Colour"] = colour
                     extra_details()
