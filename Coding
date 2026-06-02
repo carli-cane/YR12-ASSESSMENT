@@ -97,7 +97,9 @@ def add():
         main_menu()
 
     if extra == "Yes":
-        def extra_details():
+        extra_details()
+        
+def extra_details():
             extra_storage[ID] = {}
             extra_things = eg.choicebox("What category would you like " 
                                         + "to add to?",
@@ -116,6 +118,7 @@ def add():
                                         + " have?",
                                         title="Eye Colour")
                     extra_storage[ID]["Eye Colour"] = colour
+                    print(extra_storage)
                     extra_details()
 
                 if eye_extra == "Heterochromia":
@@ -285,7 +288,7 @@ def add():
                                                 "Conditions"],
                                                 title="Skin Details")
                 if skin_extra == "Colour":
-                    colour = eg.choicebox("What colour is " + name + "'s skin?",
+                    colour = eg.enterbox("What colour is " + name + "'s skin?",
                                         title="Skin Colour")
                     extra_storage[ID]["Skin Colour"] = colour
                     extra_details()
@@ -373,7 +376,7 @@ def add():
                     if shape == "Cancel":
                         extra_details()
                     else:
-                        extra[ID]["Body Shape"] = shape
+                        extra_storage[ID]["Body Shape"] = shape
                         extra_details()
 
                 if body_extra == "Extra Parts":
@@ -445,7 +448,7 @@ def add():
                     extra_details()
 
             if extra_things == "Complete":
-                eg.msgbox(characters,
+                eg.msgbox(str(characters) + str(extra_storage),
                           title="Characters Information")
                 main_menu()
 
@@ -455,7 +458,7 @@ def add():
                 
 
             main_menu()
-        extra_details()
+
 
 def editing():
     id = eg.integerbox("What is the characters ID you would like to edit?",
