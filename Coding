@@ -81,8 +81,8 @@ def add():
     ID = eg.integerbox("Please choose a number for your characters ID",
                        title=constant_title[4])
     if ID in characters:
-        eg.choicebox("Sorry this ID is already assigned to " 
-                    + characters[ID]["name"],
+        eg.msgbox("Sorry this ID is already assigned to " 
+                    + characters[ID]["Name"],
                     title=constant_title[5])
         
         ID = eg.integerbox("Please choose a number for your characters ID",
@@ -133,10 +133,6 @@ def add():
                             + "Different Speicies Details \n\n\n"
                             + "Would you like to proceed?",
                             choices=YN_choice)
-    else:
-        eg.msgbox(characters,
-                  title=constant_title[4])
-        main_menu()
         
         if extra_confirm == "Yes":
             for x in range(len(extra_details)):
@@ -166,6 +162,10 @@ def add():
                     
                 num +=1
                 number += 1
+    else:
+        eg.msgbox(characters,
+                  title=constant_title[4])
+        main_menu()
 
     eg.msgbox(characters)
     main_menu()
@@ -301,9 +301,8 @@ def view():
 def delete():
     choice_list = []
     for x in characters:
-        choice_list.append(x)
-
-    delete = eg.choicebox("What is the id of the character " 
+        choice_list.append(str(x))
+    delete = eg.buttonbox("What is the id of the character " 
                            + "you want to delete?",
                            choices=choice_list,
                            title="Delete")
