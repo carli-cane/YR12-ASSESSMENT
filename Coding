@@ -45,7 +45,7 @@ def leave():
     if exit == "Yes":
         eg.msgbox("Thank you for checking out the programme",
                 title = "Leaving programme")
-        quit
+        quit()
 
     if exit =="No":
         eg.msgbox("We are taking you back to the main menu",
@@ -282,21 +282,29 @@ def editing():
 
 
 def view():
-    id = eg.integerbox("What is your characters ID?",
-                       title=constant_title[0])
-    while id not in characters:
-        eg.msgbox("That ID does not exist",
-                  title=constant_title[5])
-        id = eg.integerbox("What is your characters ID?",
-                           title=constant_title[0])
-    if id in characters:
+    choice_list = []
+    for x in characters:
+        choice_list.append(str(x))
+    id = eg.buttonbox("Which is your characters would you like to view?",
+                    choices=choice_list,
+                    title=constant_title[0])
+    id_confirm = eg.buttonbox("Is " + characters[int(id)]["Name"] + " correct?",
+                              choices=YN_choice,
+                              title=constant_title[3],)
+    while id_confirm == "Yes":
         eg.msgbox(characters[id])
 
-        seperate = list(characters[id])
-        details = str(seperate).split(",")
+    if id_confirm == "No":
+        id = eg.buttonbox("Which is your characters would you like to view?",
+                    choices=choice_list,
+                    title=constant_title[0])
+        
+        id_confirm = eg.buttonbox("Is " + characters[int(id)]["Name"] 
+                                + " correct?",
+                                choices=YN_choice,
+                                title=constant_title[3],)
 
-        eg.msgbox(details)
-        main_menu()
+    main_menu()
 
 def delete():
     choice_list = []
@@ -307,7 +315,7 @@ def delete():
                            choices=choice_list,
                            title="Delete")
     
-    delete_confirm = eg.buttonbox("Is " + characters[delete]["Name"] 
+    delete_confirm = eg.buttonbox("Is " + characters[int(delete)]["Name"] 
                                   + " correct?",
                                   choices=YN_choice,
                                   title=constant_title[3])
@@ -316,28 +324,32 @@ def delete():
                                 + "you want to delete?",
                                 choices=choice_list,
                                 title="Delete")
-            
-            while delete not in characters[delete]:
-                delete = eg.choicebox("What is the id of the character " 
-                                    + "you want to delete?",
-                                    choices=choice_list,
-                                    title="Delete")
 
-                delete_confirm = eg.buttonbox("Is " + characters[delete]["Name"] 
-                                    + " correct?",
-                                    choices=YN_choice,
-                                    title=constant_title[3])
+            delete_confirm = eg.buttonbox("Is " 
+                                        + characters[int(delete)]["Name"] 
+                                        + " correct?",
+                                        choices=YN_choice,
+                                        title=constant_title[3])
+            
     if delete_confirm == "Yes":
-        eg.msgbox(characters[delete]["Name"] + " has been deleted",
+        eg.msgbox(characters[int(delete)]["Name"] + " has been deleted",
                   title="Deletion Complete")
         character_num - 1
-        characters.pop(delete)
+        characters.pop(int(delete))
 
-        while character_num == 0:
-            eg.msgbox("Since you have no more characters left:" + "\n\n" 
-            + "You will be directed back to: Adding a Character",
-            title="Character Adder")
-            add()
+        if character_num == 0:
+            empty_characters = eg.buttonbox("Since you have no more characters:" 
+                                        + "\n\n" 
+                                        + "You have a choice: Add a Character or "
+                                        + "Leave the Program",
+                                        choices=["Add","Leave"],
+                                        title="Character Adder")
+
+            if empty_characters == "Add":
+                add()
+
+            else:
+                leave()
 
         main_menu()
 
