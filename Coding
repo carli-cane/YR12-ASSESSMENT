@@ -49,7 +49,7 @@ def leave():
 
     if exit =="No":
         eg.msgbox("We are taking you back to the main menu",
-                  title="Returning")
+                title="Returning")
         main_menu()
 
 
@@ -109,9 +109,9 @@ def add():
             eg.msgbox("ERROR!",
                     title=constant_title[5])
             pronouns = eg.enterbox("Please make sure to enter " 
-                                   + name 
-                                   + "'s pronouns" + " under the format Xx/Yy",
-                        title=constant_title[4])
+                                    + name 
+                                    + "'s pronouns" + " under the format Xx/Yy",
+                                    title=constant_title[4])
         characters[ID]["Pronouns"] = pronouns
     else:
         characters[ID]["Pronouns"] = pronouns
@@ -204,9 +204,7 @@ def editing():
                     id_confirm = eg.choicebox("Is " + characters[id]["Name"] 
                                     + " correct?",
                                     title=constant_title[3],
-                                    choices=YN_choice)
-            
-                        
+                                    choices=YN_choice)         
                         
 
             id_confirm = id
@@ -272,11 +270,6 @@ def editing():
 
                     while confirm == "No":
                         base_detail_edit()
-                
-
-
-            if id in characters:
-                eg.msgbox("placeholder")
 
         base_detail_edit()
 
@@ -291,10 +284,10 @@ def view():
     id_confirm = eg.buttonbox("Is " + characters[int(id)]["Name"] + " correct?",
                               choices=YN_choice,
                               title=constant_title[3],)
-    while id_confirm == "Yes":
-        eg.msgbox(characters[id])
+    if id_confirm == "Yes":
+        eg.msgbox(characters[int(id)])
 
-    if id_confirm == "No":
+    elif id_confirm == "No":
         id = eg.buttonbox("Which is your characters would you like to view?",
                     choices=choice_list,
                     title=constant_title[0])
