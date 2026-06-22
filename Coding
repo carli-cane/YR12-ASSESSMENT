@@ -2,12 +2,11 @@ import easygui as eg
 
 characters = {}
 character_num = 0
-extra_details = ["Eye Colour","Heterchromia","Eye Shape","Eyelashes",
-                "Hair Colour","Base Hair + Dyed","Hair Length",
-                "Hair Type","Hair Style",
-                "Skin Colour","Skin Details","Skin Conditions",
-                "Height","Body Shape","Less or Extra Parts",
-                "Different Species Details"]
+extra_details = ["Eye Colour", "Heterchromia", "Eye Shape", "Eyelashes",
+                "Hair Colour", "Base Hair + Dyed", "Hair Length",
+                    "Hair Type", "Hair Style",
+                    "Skin Colour", "Skin Details", "Skin Conditions",
+                    "Different Species Details"]
 
 extra_details_information = ["",
                             "Please enter the colours: Left Eye, Right Eye",
@@ -172,106 +171,67 @@ def add():
         
 
 def editing():
-        id = eg.integerbox("What is the characters ID you would like to edit?",
-                        title=constant_title[0])
-
-        while id not in characters:
-            eg.msgbox("That ID does not exist",
-                    title=constant_title[5])
-            id = eg.integerbox("What is your characters ID?",
-                            title=constant_title[0])
+    choice_list = []
+    for x in characters:
+        choice_list.append(str(x))
+    id = eg.buttonbox("Which is your characters would you like to edit?",
+                    choices=choice_list,
+                    title=constant_title[0])
+    id_confirm = eg.buttonbox("Is " + characters[int(id)]["Name"] + " correct?",
+                              choices=YN_choice,
+                              title=constant_title[3])
+    if id_confirm == "Yes":
+        def edit_details():
+            edit_list = []
+            for x in characters[int(id)]:
+                edit_list.append(str(x))
+            editor = eg.choicebox("Which detail would you like to edit?",
+                        choices=edit_list)
             
-        else:
-            id_confirm = eg.choicebox("Is " + characters[id]["Name"] 
-                                    + " correct?",
-                                    choices=YN_choice)
-            
-            while id_confirm == "No":
-                id = eg.integerbox("What is the characters ID"
-                                + " you would like to edit?",
-                                title=constant_title[0])
-                id_confirm = eg.choicebox("Is " + characters[id]["Name"] 
-                            + " correct?",
-                            choices=YN_choice,
-                            title=constant_title[3])
-                
-                while id not in characters:
-                        eg.msgbox("That ID does not exist",
-                                title=constant_title[5])
-                        id = eg.integerbox("What is your characters ID?",
-                                        title=constant_title[0])
-                else:
-                    id_confirm = eg.choicebox("Is " + characters[id]["Name"] 
-                                    + " correct?",
-                                    title=constant_title[3],
-                                    choices=YN_choice)         
-                        
-
-            id_confirm = id
-
-        if id in characters:
-            def base_detail_edit():
-                edit = eg.choicebox("What base detail would you like to edit?",
-                            choices=["Name","Age","Pronouns","Confirm"])
-                if edit == "Name":
-                    name_edit = eg.enterbox(characters[id]["Name"] 
-                                    + " is the current name." 
-                                    + "\n" 
-                                    + "What would you like the new name to be?",
-                                    title=constant_title[4])
-                    characters[id]["Name"] = name_edit
-                    base_detail_edit()
-
-                if edit == "Age":
-                    age_edit = eg.integerbox(str(characters[id]["Age"])
-                                        + " is the current age. \n" 
-                                        + "What would you like "
-                                        + "the new age to be?",
-                                        title=constant_title[4])
-                    characters[id]["Age"] = age_edit
-                    base_detail_edit()
-
-                if edit == "Pronouns":
-                    pronoun_edit = eg.choicebox(characters[id]["Pronouns"] 
-                                    + " is the current pronouns. \n" 
-                                    + "What would you like the new pronouns to be?",
-                                    choices=["She/Her","He/Him",
-                                            "They/Them","Other"],
-                                    title=constant_title[4])
-                    characters[id]["Pronouns"] = pronoun_edit
-                    base_detail_edit()
-
-                    if pronoun_edit == "Other":
-                        pronoun_other = eg.enterbox("Please enter " 
-                                        + characters[id]["Name"] + "'s pronouns"
-                                        + "\n" 
-                                        + "Input it under the format Xx/Yy",
-                                        title=constant_title[4])
-                        
-                    while "/" not in pronoun_other:
-                        eg.msgbox("ERROR!",
-                                    title="Input Error")
-                    pronoun_other = eg.enterbox("Please make sure to enter " 
-                                        + characters[id]["Name"]
-                                        + "'s pronouns " 
-                                        + "under the format Xx/Yy",
-                                title=constant_title[4])
-                    
-                    characters[id]["Pronouns"] = pronoun_other
-                    base_detail_edit()
-
-                if edit == "Confirm":
-                    confirm = eg.buttonbox("Is " + str(characters[id]) 
-                                        + " correct?",
-                                        choices=YN_choice,
-                                        title=constant_title[3])
-                    if confirm == "Yes":
+            if editor == editor:
+                confirm = eg.buttonbox("Would you like to change the " 
+                                    + editor + " from " 
+                                    + str(characters[int(id)][editor]) + " ?",
+                                    choices=YN_choice,
+                                    title=constant_title[3])
+                if confirm == "Yes":
+                    change = eg.enterbox("What would you like to change " 
+                                        + str(characters[int(id)][editor]) 
+                                        + " to?")
+                    confirm_change = eg.buttonbox("Is " + change + " correct?",
+                                                choices=YN_choice) 
+                    if confirm_change == "Yes":
+                        characters[int(id)][editor] = change
                         main_menu()
 
-                    while confirm == "No":
-                        base_detail_edit()
+                    while confirm_change == "No":
+                        change = eg.enterbox("What would you like to change " 
+                                        + characters[int(id)][editor] + " to?")
+                        confirm_change = eg.buttonbox("Is " + change 
+                                                + " correct?",
+                                                choices=YN_choice,
+                                                title=constant_title[3])
+                        if confirm_change == "Yes":
+                            characters[int(id)][editor] = change
+                            main_menu()
+                if confirm == "No":
+                    edit_details()
 
-        base_detail_edit()
+        edit_details()  
+
+    while id_confirm == "No":
+        id = eg.buttonbox("Which is your characters would you like to edit",
+                    choices=choice_list,
+                    title=constant_title[0])
+            
+        id_confirm = eg.buttonbox("Is " + characters[int(id)]["Name"] + " correct?",
+                              choices=YN_choice,
+                              title=constant_title[3])
+        
+    if id_confirm == "Main Menu":
+        eg.msgbox("We are taking you back to the main menu",
+                title="Returning")
+        main_menu()
 
 
 def view():
@@ -283,7 +243,7 @@ def view():
                     title=constant_title[0])
     id_confirm = eg.buttonbox("Is " + characters[int(id)]["Name"] + " correct?",
                               choices=YN_choice,
-                              title=constant_title[3],)
+                              title=constant_title[3])
     if id_confirm == "Yes":
         eg.msgbox(characters[int(id)])
 
