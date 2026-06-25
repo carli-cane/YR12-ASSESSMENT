@@ -1,4 +1,4 @@
-"""This code is for users to add, edit, view, and delete characters."""
+"""Add, edit, view, and delete characters."""
 import easygui as eg
 
 characters = {}
@@ -8,26 +8,26 @@ extra_details = ["Eye Colour", "Heterchromia", "Eye Shape", "Eyelashes",
                  "Skin Colour", "Skin Details", "Skin Conditions",
                  "Different Species Details"]
 
-extra_details_information = ["",
-                             "Please enter the colours: Left Eye, Right Eye",
-                             "",
-                             "",
-                             "",
-                             "Please enter the base colour first",
-                             "",
-                             "Hair type could be 'Curly' or 'Straight",
-                             "",
-                             "",
-                             "Skin details could be 'Moles' or 'Scars",
-                             "Skin conditions are things like 'Ezecma'",
-                             "",
-                             "Body shape could be 'Hourglass' or 'Rectangle'",
-                             "Less/Extra is if limbs differ from standard",
-                             "Species could refer to 'Gills' or 'Antlers'"]
+extra_details_info = ["",
+                      "Please enter the colours: Left Eye, Right Eye",
+                      "",
+                      "",
+                      "",
+                      "Please enter the base colour first",
+                      "",
+                      "Hair type could be 'Curly' or 'Straight",
+                      "",
+                      "",
+                      "Skin details could be 'Moles' or 'Scars",
+                      "Skin conditions are things like 'Ezecma'",
+                      "",
+                      "Body shape could be 'Hourglass' or 'Rectangle'",
+                      "Less/Extra is if limbs differ from standard",
+                      "Species could refer to 'Gills' or 'Antlers'"]
 
-constant_title = ["Search ID", "Main Menu",
-                  "Extra Details", "Confirmation",
-                  "Character Information", "Error"]
+titles = ["Search ID", "Main Menu",
+          "Extra Details", "Confirmation",
+          "Character Information", "Error"]
 
 YN_choice = ["Yes", "No"]
 
@@ -36,7 +36,7 @@ def leave():
     """How to leave the programme."""
     exit = eg.choicebox("Are you sure you would like to quit?",
                         choices=YN_choice,
-                        title=constant_title[3])
+                        title=titles[3])
     if exit == "Yes":
         eg.msgbox("Thank you for checking out the programme",
                   title="Leaving programme")
@@ -49,10 +49,10 @@ def leave():
 
 
 def main_menu():
-    """The main point in code allowing users to commit actions."""
+    """Allow users to use the code functions."""
     option = eg.buttonbox("Which action would you like to perform?",
                           choices=["Add", "Delete", "Edit", "View", "Quit"],
-                          title=constant_title[1])
+                          title=titles[1])
     if option == "Add":
         add()
 
@@ -68,222 +68,234 @@ def main_menu():
     if option == "Quit":
         leave()
 
-    
+
 def add():
+    """Add characters / information."""
     ID = eg.integerbox("Please choose a number for your characters ID",
-                       title=constant_title[4])
+                       title=titles[4])
     if ID in characters:
         eg.msgbox("Sorry this ID is already assigned to "
                   + characters[ID]["Name"],
-                  title=constant_title[5])
-        
+                  title=titles[5])
+
         ID = eg.integerbox("Please choose a number for your characters ID",
-                           title=constant_title[4])
+                           title=titles[4])
     characters[ID] = {}
 
     name = eg.enterbox("What is this characters name?",
-                       title=constant_title[4])
+                       title=titles[4])
     characters[ID]["Name"] = name
 
     age = eg.integerbox("What is " + name + "'s age?",
-                        title=constant_title[4],
+                        title=titles[4],
                         upperbound=10000)
     characters[ID]["Age"] = age
 
     pronouns = eg.buttonbox("What are " + name + "'s pronouns?",
-                            title=constant_title[4],
-                            choices=["She/Her","He/Him","They/Them","Other"])
+                            title=titles[4],
+                            choices=["She/Her", "He/Him",
+                                     "They/Them", "Other"])
     if pronouns == "Other":
         pronouns = eg.enterbox("Please enter " + name + "'s pronouns"
                                + "\n" + "Input it under the format Xx/Yy",
-                               title=constant_title[4])
+                               title=titles[4])
         while "/" not in pronouns:
             eg.msgbox("ERROR!",
-                    title=constant_title[5])
-            pronouns = eg.enterbox("Please make sure to enter " 
-                                    + name 
-                                    + "'s pronouns" + " under the format Xx/Yy",
-                                    title=constant_title[4])
+                      title=titles[5])
+            pronouns = eg.enterbox("Please make sure to enter "
+                                   + name
+                                   + "'s pronouns" + " under the format Xx/Yy",
+                                   title=titles[4])
         characters[ID]["Pronouns"] = pronouns
     else:
         characters[ID]["Pronouns"] = pronouns
 
     extra = eg.buttonbox("Do you want to add any extra information?",
-                        choices=YN_choice,
-                        title=constant_title[3])
+                         choices=YN_choice,
+                         title=titles[3])
 
     if extra == "Yes":
         num = 0
         number = 0
-        extra_confirm = eg.buttonbox("You will now be asked a series of " 
-                            + "questions regarding four main categories.\n\n\n"
-                            + "Eyes: Colour, Heterochromia, " 
-                            + "Shape, Eyelashes \n\n"
-                            + "Hair: Colour, Dye, Length, Type, Style \n\n"
-                            + "Skin: Colour, Details, Conditions \n\n"
-                            + "Body: Height, Shape, Part Amounts, " 
-                            + "Different Speicies Details \n\n\n"
-                            + "Would you like to proceed?",
-                            choices=YN_choice,
-                            title=constant_title[2])
-        
+        extra_confirm = eg.buttonbox("You will now be asked a series of "
+                                     + "questions regarding four categories."
+                                     + "\n\n\n"
+                                     + "Eyes: Colour, Heterochromia, "
+                                     + "Shape, Eyelashes \n\n"
+                                     + "Hair: Colour, Dye, Length, Type, Style"
+                                     + "\n\n"
+                                     + "Skin: Colour, Details, Conditions \n\n"
+                                     + "Body: Height, Shape, Part Amounts, "
+                                     + "Different Speicies Details \n\n\n"
+                                     + "Would you like to proceed?",
+                                     choices=YN_choice,
+                                     title=titles[2])
+
         if extra_confirm == "Yes":
             for x in range(len(extra_details)):
-                extra_things = eg.buttonbox("Would you like to add " 
-                                + extra_details[num] + "?",
-                                choices=["Yes","No"],
-                                title=constant_title[2])
-        
+                extra_things = eg.buttonbox("Would you like to add "
+                                            + extra_details[num] + "?",
+                                            choices=["Yes", "No"],
+                                            title=titles[2])
+
                 if extra_things == "Yes":
-                    thing = eg.enterbox("Please input the information for: " 
-                                    + extra_details[num] + "\n"
-                                    + extra_details_information[number],
-                                    title=constant_title[2])
+                    thing = eg.enterbox("Please input the information for: "
+                                        + extra_details[num] + "\n"
+                                        + extra_details_info[number],
+                                        title=titles[2])
                     characters[ID][extra_details[num]] = thing
-                    extra_things_confirm = eg.buttonbox("Is " + thing 
-                                                    + " correct?",
-                                                    choices=YN_choice,
-                                                    title=constant_title[3])
-                    
+                    extra_things_confirm = eg.buttonbox("Is " + thing
+                                                        + " correct?",
+                                                        choices=YN_choice,
+                                                        title=titles[3])
+
                     if extra_things_confirm == "No":
-                        thing = eg.enterbox("Please input the information for: " 
-                                    + extra_details[num] + "\n"
-                                    + extra_details_information[number],
-                                    title=constant_title[2])
+                        thing = eg.enterbox("Please input for: "
+                                            + extra_details[num] + "\n"
+                                            + extra_details_info[number],
+                                            title=titles[2])
                         characters[ID][extra_details[num]] = thing
 
-                    
-                num +=1
+                num += 1
                 number += 1
     else:
         eg.msgbox(characters,
-                  title=constant_title[4])
+                  title=titles[4])
         main_menu()
 
     eg.msgbox(characters,
-              title=constant_title[4])
+              title=titles[4])
     main_menu()
-        
+
 
 def editing():
+    """Edit character information."""
     choice_list = []
     for x in characters:
         choice_list.append(str(x))
     id = eg.buttonbox("Which is your characters would you like to edit?",
-                    choices=choice_list,
-                    title=constant_title[0])
-    id_confirm = eg.buttonbox("Is " + characters[int(id)]["Name"] + " correct?",
+                      choices=choice_list,
+                      title=titles[0])
+    id_confirm = eg.buttonbox("Is " + characters[int(id)]["Name"]
+                              + " correct?",
                               choices=YN_choice,
-                              title=constant_title[3])
+                              title=titles[3])
     if id_confirm == "Yes":
         def edit_details():
             edit_list = []
             for x in characters[int(id)]:
                 edit_list.append(str(x))
             editor = eg.choicebox("Which detail would you like to edit?",
-                                choices=edit_list,
-                                title=constant_title[4])
-            
+                                  choices=edit_list,
+                                  title=titles[4])
+
             if editor == editor:
-                confirm = eg.buttonbox("Would you like to change the " 
-                                    + editor + " from " 
-                                    + str(characters[int(id)][editor]) + " ?",
-                                    choices=YN_choice,
-                                    title=constant_title[3])
+                confirm = eg.buttonbox("Would you like to change the "
+                                       + editor + " from "
+                                       + str(characters[int(id)][editor])
+                                       + " ?",
+                                       choices=YN_choice,
+                                       title=titles[3])
                 if confirm == "Yes":
-                    change = eg.enterbox("What would you like to change " 
-                                        + str(characters[int(id)][editor]) 
-                                        + " to?",
-                                        title=constant_title[4])
+                    change = eg.enterbox("What would you like to change "
+                                         + str(characters[int(id)][editor])
+                                         + " to?",
+                                         title=titles[4])
                     confirm_change = eg.buttonbox("Is " + change + " correct?",
-                                                choices=YN_choice,
-                                                title=constant_title[3]) 
+                                                  choices=YN_choice,
+                                                  title=titles[3])
                     if confirm_change == "Yes":
                         characters[int(id)][editor] = change
                         main_menu()
 
                     while confirm_change == "No":
-                        change = eg.enterbox("What would you like to change " 
-                                        + characters[int(id)][editor] + " to?",
-                                        title=constant_title[4])
-                        confirm_change = eg.buttonbox("Is " + change 
-                                                + " correct?",
-                                                choices=YN_choice,
-                                                title=constant_title[3])
+                        change = eg.enterbox("What would you like to change "
+                                             + characters[int(id)][editor]
+                                             + " to?",
+                                             title=titles[4])
+                        confirm_change = eg.buttonbox("Is " + change
+                                                      + " correct?",
+                                                      choices=YN_choice,
+                                                      title=titles[3])
                         if confirm_change == "Yes":
                             characters[int(id)][editor] = change
                             main_menu()
                 if confirm == "No":
                     edit_details()
 
-        edit_details()  
+        edit_details()
 
     while id_confirm == "No":
         id = eg.buttonbox("Which is your characters would you like to edit",
-                    choices=choice_list,
-                    title=constant_title[0])
-            
-        id_confirm = eg.buttonbox("Is " + characters[int(id)]["Name"] + " correct?",
-                              choices=YN_choice,
-                              title=constant_title[3])
-        
+                          choices=choice_list,
+                          title=titles[0])
+
+        id_confirm = eg.buttonbox("Is " + characters[int(id)]["Name"]
+                                  + " correct?",
+                                  choices=YN_choice,
+                                  title=titles[3])
+
     if id_confirm == "Main Menu":
         eg.msgbox("We are taking you back to the main menu",
-                title="Returning")
+                  title="Returning")
         main_menu()
 
 
 def view():
+    """View character information."""
     choice_list = []
     for x in characters:
         choice_list.append(str(x))
     id = eg.buttonbox("Which is your characters would you like to view?",
-                    choices=choice_list,
-                    title=constant_title[0])
-    id_confirm = eg.buttonbox("Is " + characters[int(id)]["Name"] + " correct?",
+                      choices=choice_list,
+                      title=titles[0])
+    id_confirm = eg.buttonbox("Is " + characters[int(id)]["Name"]
+                              + " correct?",
                               choices=YN_choice,
-                              title=constant_title[3])
+                              title=titles[3])
     if id_confirm == "Yes":
         eg.msgbox(characters[int(id)],
-                  title=constant_title[4])
+                  title=titles[4])
 
     elif id_confirm == "No":
         id = eg.buttonbox("Which is your characters would you like to view?",
-                    choices=choice_list,
-                    title=constant_title[0])
-        
-        id_confirm = eg.buttonbox("Is " + characters[int(id)]["Name"] 
-                                + " correct?",
-                                choices=YN_choice,
-                                title=constant_title[3],)
+                          choices=choice_list,
+                          title=titles[0])
+
+        id_confirm = eg.buttonbox("Is " + characters[int(id)]["Name"]
+                                  + " correct?",
+                                  choices=YN_choice,
+                                  title=titles[3],)
 
     main_menu()
 
+
 def delete():
+    """Delete characters."""
     choice_list = []
     for x in characters:
         choice_list.append(str(x))
-    delete = eg.buttonbox("What is the id of the character " 
-                           + "you want to delete?",
-                           choices=choice_list,
-                           title="Delete")
-    
-    delete_confirm = eg.buttonbox("Is " + characters[int(delete)]["Name"] 
+    delete = eg.buttonbox("What is the id of the character "
+                          + "you want to delete?",
+                          choices=choice_list,
+                          title="Delete")
+
+    delete_confirm = eg.buttonbox("Is " + characters[int(delete)]["Name"]
                                   + " correct?",
                                   choices=YN_choice,
-                                  title=constant_title[3])
+                                  title=titles[3])
     while delete_confirm == "No":
-            delete = eg.choicebox("What is the id of the character " 
-                                + "you want to delete?",
-                                choices=choice_list,
-                                title="Delete")
+        delete = eg.choicebox("What is the id of the character "
+                              + "you want to delete?",
+                              choices=choice_list,
+                              title="Delete")
 
-            delete_confirm = eg.buttonbox("Is " 
-                                        + characters[int(delete)]["Name"] 
-                                        + " correct?",
-                                        choices=YN_choice,
-                                        title=constant_title[3])
-            
+        delete_confirm = eg.buttonbox("Is "
+                                      + characters[int(delete)]["Name"]
+                                      + " correct?",
+                                      choices=YN_choice,
+                                      title=titles[3])
+
     if delete_confirm == "Yes":
         eg.msgbox(characters[int(delete)]["Name"] + " has been deleted",
                   title="Deletion Complete")
@@ -292,19 +304,20 @@ def delete():
 
 
 welcome = eg.buttonbox("Welcome to the OC Maker!" + "\n"
-        + "Thoughout this programme you will be able to: " + "\n\n"
-        + "- Add Characters" + "\n" 
-        + "- Edit Characters" + "\n" 
-        + "- Delete Characters" + "\n"
-        + "- Display Character Information" + "\n\n"
-        + "Would you like to proceed?",
-        choices=YN_choice,
-        title="Welcome")
+                       + "Thoughout this programme you will be able to: "
+                       + "\n\n"
+                       + "- Add Characters" + "\n"
+                       + "- Edit Characters" + "\n"
+                       + "- Delete Characters" + "\n"
+                       + "- Display Character Information" + "\n\n"
+                       + "Would you like to proceed?",
+                       choices=YN_choice,
+                       title="Welcome")
 
 if welcome == "Yes":
-    eg.msgbox("Since this is your first time entering the programme:" + "\n\n" 
-            + "You will be directed to: Adding a Character!",
-            title="Starter Character")
+    eg.msgbox("Since this is your first time entering the programme:" + "\n\n"
+              + "You will be directed to: Adding a Character!",
+              title="Starter Character")
     add()
 
 if welcome == "No":
