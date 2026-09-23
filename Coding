@@ -11,6 +11,9 @@ extra_details = ["Eye Colour", "Heterchromia", "Eye Shape", "Eyelashes",
                  "Race / Ethnicity", "Skin Details", "Skin Conditions",
                  "Different Species Details"]
 
+# Each empty quotation mark is a placeholder for extra details 
+# that didn't need extra information to assist the user 
+# It made sure that the assited information was under the correct detail
 extra_details_info = ["",
                       "Please enter the colours: Left Eye, Right Eye",
                       "",
@@ -51,7 +54,7 @@ def leave():
                   title="Returning")
         main_menu()
 
-
+# This is the main point of action that moves users to different functions
 def main_menu():
     """Allow users to use the code functions."""
     option = eg.buttonbox("Which action would you like to perform?",
