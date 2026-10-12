@@ -11,7 +11,7 @@ extra_details = ["Eye Colour", "Heterchromia", "Eye Shape", "Eyelashes",
                  "Race / Ethnicity", "Skin Details", "Skin Conditions",
                  "Different Species Details"]
 
-# Each empty quotation mark is a placeholder for extra details 
+# Each empty quotation mark is a placeholder for extra details
 # that didn't need extra information to assist the user 
 # It made sure that the assited information was under the correct detail
 extra_details_info = ["",
@@ -79,14 +79,16 @@ def main_menu():
 def add():
     """Add characters / information."""
     # This is the basic and required information
-    ID = eg.integerbox("Please choose a number for your characters ID",
+    ID = eg.integerbox("Please choose a number for your characters ID" +
+                       "\n" + "The range is 1-99",
                        title=titles[4])
-    if ID in characters:
+    while ID in characters:
         eg.msgbox("Sorry this ID is already assigned to "
                   + characters[ID]["Name"],
                   title=titles[5])
 
-        ID = eg.integerbox("Please choose a number for your characters ID",
+        ID = eg.integerbox("Please choose a number for your characters ID" +
+                           "\n" + "The range is 1-99",
                            title=titles[4])
     characters[ID] = {}
 
@@ -189,11 +191,11 @@ def add():
                 num += 1
                 number += 1
     else:
-        eg.msgbox(characters,
+        eg.msgbox(characters[ID],
                   title=titles[4])
         main_menu()
 
-    eg.msgbox(characters,
+    eg.msgbox(characters[ID],
               title=titles[4])
     main_menu()
 
@@ -349,7 +351,18 @@ def delete():
         eg.msgbox(characters[int(delete)]["Name"] + " has been deleted",
                   title="Deletion Complete")
         characters.pop(int(delete))
-        main_menu()
+
+        if len(characters) == 0:
+            restart = eg.choicebox("You have no characters left" + "\n" +
+                                   "Would you like to add or quit?",
+                                   choices=["Add","Quit"])
+            if restart == "Add":
+                add()
+            if restart == "Quit":
+                leave()
+        
+        else:
+            main_menu()
 
 # This is my welcome information chunck
 welcome = eg.buttonbox("Welcome to the OC Maker!" + "\n"
